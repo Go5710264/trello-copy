@@ -1,4 +1,4 @@
-name: welbex
+name: projectName
 
 on: [push, pull_request]
 

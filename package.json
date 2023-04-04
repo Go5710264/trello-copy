@@ -16,8 +16,7 @@
     "preshow:doc": "npm run doc",
     "show:doc": "live-server doc",
     "preshow:dist": "npm run build",
-    "show:dist": "live-server dist",
-    "server":"live-server src"
+    "show:dist": "live-server dist"
   },
   "keywords": [],
   "author": "",
