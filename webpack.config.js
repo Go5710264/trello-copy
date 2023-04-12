@@ -10,7 +10,7 @@ module.exports = {
   devtool: 'source-map',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    assetModuleFilename: '[name][ext]', // переместить в корневую папку
+    assetModuleFilename: 'images/[name][ext]', // переместить в корневую папку
   },
   module: {
     rules: [

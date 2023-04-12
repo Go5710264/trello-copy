@@ -4,15 +4,30 @@ body, ul {
 }
 
 .wrapper-columns-boards{
-    width: 1000px;
+    width: 990px;
+    padding: 10px;
 
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
 
 }
 
 .column-boards{
     width: 310px;
+    padding: 5px;
+    background-color:rgba(145, 164, 201, 0.921);
+    border-radius: 5px;
+}
+
+.icon {
+    width: 17px;
+    height: 17px;
+}
+
+.point{
+    width: 20px;
+    height: 20px;
+    padding: 5px 3px;
 }
 
 .header-block-card{
@@ -22,32 +37,71 @@ body, ul {
 
 .header-column{
     margin: 0;
-    font: normal 600 25px Helvetica;
+    padding: 5px;
+    font: normal 500 21px Helvetica;
     text-transform: uppercase;
+}
+
+.column-cards{
+    height: 150px;
+    /* нужно будет убрать в продакшене */
 }
 
 .card {
     display: flex;
     justify-content: space-between;
+
+    padding: 5px;
+    background-color: #ffffff;
+    border-radius: 3px;
 }
 
 .card-message{
     margin: 0;
 
-    font: normal 400 20px Helvetica;
+    font: normal 500 15px Helvetica;
+}
+
+.point-icon{
+    margin: 0;
+    border: 0;
+    padding: 0;
+
+    display: flex;
+
+    background: none;
+}
+
+.card-closure{
+    margin: 0;
+    border: 0;
+    padding: 0;
+
+    display: flex;
+
+    background: none;
 }
 
 .button-icon{
     margin: 0;
     border: 0;
-    padding: 0;
-}
+    padding: 3px;
 
-.icon {
-    width: 20px;
-    height: 20px;
+    display: flex;
+
+    background: none;
 }
 
 .footer-block-card{
     display: flex;
+}
+
+.footer-block-card-button {
+    margin: auto;
+    font: normal 200 15px Helvetica;
+}
+
+.footer-icon{
+    height: 17px;
+    padding-right: 3px;
 }
