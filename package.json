@@ -1,5 +1,5 @@
 {
-  "name": "dom-homework",
+  "name": "trello-copy",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -19,7 +19,7 @@
     "show:dist": "live-server dist"
   },
   "keywords": [],
-  "author": "",
+  "author": "Dima Shirkov <dimashirkov@list.ru>",
   "license": "ISC",
   "jest": {
     "testEnvironment": "jsdom"
@@ -48,5 +48,6 @@
     "webpack": "^5.75.0",
     "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^4.11.1"
-  }
+  },
+  "repository": "git@github.com:Go5710264/trello-copy.git"
 }

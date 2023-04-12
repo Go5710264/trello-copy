@@ -1,4 +1,53 @@
 body, ul {
     margin: 0;
     padding: 0;
-};
+}
+
+.wrapper-columns-boards{
+    width: 1000px;
+
+    display: flex;
+    justify-content: space-around;
+
+}
+
+.column-boards{
+    width: 310px;
+}
+
+.header-block-card{
+    display: flex;
+    justify-content: space-between;
+}
+
+.header-column{
+    margin: 0;
+    font: normal 600 25px Helvetica;
+    text-transform: uppercase;
+}
+
+.card {
+    display: flex;
+    justify-content: space-between;
+}
+
+.card-message{
+    margin: 0;
+
+    font: normal 400 20px Helvetica;
+}
+
+.button-icon{
+    margin: 0;
+    border: 0;
+    padding: 0;
+}
+
+.icon {
+    width: 20px;
+    height: 20px;
+}
+
+.footer-block-card{
+    display: flex;
+}
