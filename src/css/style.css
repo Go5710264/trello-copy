@@ -93,6 +93,14 @@ body, ul {
     background: none;
 }
 
+.hide_element{
+    display: none;
+}
+
+.show_element{
+    display: block;
+}
+
 .footer-block-card{
     display: flex;
 }
@@ -111,6 +119,7 @@ body, ul {
     width: 300px;
     padding: 5px;
     resize: none;
+    height: 26px;
 
     background-color: #ffffff;
     border:0;
@@ -119,6 +128,10 @@ body, ul {
 
 .task-input-field:focus{
     outline: 2px solid #ffd300;
+}
+
+.task-input-field::-webkit-scrollbar{
+    width: 0;
 }
 
 .click-add-card{
