@@ -119,11 +119,14 @@ body, ul {
     width: 300px;
     padding: 5px;
     resize: none;
-    height: 26px;
+    height: 25px;
 
     background-color: #ffffff;
     border:0;
     border-radius: 3px;
+
+    font: normal 500 13px Helvetica;
+    letter-spacing: 1px;
 }
 
 .task-input-field:focus{
