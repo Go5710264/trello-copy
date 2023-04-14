@@ -9,6 +9,7 @@ body, ul {
 
     display: flex;
     justify-content: space-between;
+    align-items: flex-start;
 
 }
 
@@ -102,6 +103,46 @@ body, ul {
 }
 
 .footer-icon{
-    height: 17px;
+    height: 15px;
     padding-right: 3px;
+}
+
+.task-input-field{
+    width: 300px;
+    padding: 5px;
+    resize: none;
+
+    background-color: #ffffff;
+    border:0;
+    border-radius: 3px;
+}
+
+.task-input-field:focus{
+    outline: 2px solid #ffd300;
+}
+
+.click-add-card{
+    display: flex;
+}
+
+.footer-button-add-card{
+    padding: 5px;
+    background-color: #ffd300;
+    border: 0;
+    border-radius: 3px;
+
+    font: normal 600 15px Helvetica;
+    color: #ffffff;
+}
+
+.click-add-card-close-wrapper{
+    margin: 0;
+    border: 0;
+    padding: 0;
+    padding-left: 5px;
+
+    display: flex;
+    align-items: center;
+
+    background: none;
 }
