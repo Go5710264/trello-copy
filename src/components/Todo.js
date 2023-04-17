@@ -34,7 +34,6 @@ export default class Todo{
             if(buttonClose.classList.contains('footer-button-add-card') 
             || buttonClose.classList.contains('click-add-card-close')){
 
-                debugger
                 if(buttonClose.classList.contains('footer-button-add-card')) this.cardDisplay(textArea);
 
                 this.textarea = buttonClose.closest('.show_element');
@@ -51,13 +50,18 @@ export default class Todo{
 
     cardDisplay(contentArea) {
         console.log(contentArea)
+        // console.log(event)
+
+        debugger
         // получить значение texarea
-        const card = document.querySelector('.card');
+        const card = contentArea.closest('card');
+        console.log(card)
 
         const newCard = card.cloneNode(true);
-        newCard.querySelector('.card-message').textContent = contentArea.textContent;
+        const pharag = newCard.querySelector('.card-message')
+        // pharag.textcontent = '' + contentArea.value; // не нашел другого метода
+        pharag.innerText = contentArea.value; // не нашел другого метода
+        console.log(newCard)
 
-        console.log(this.textarea)
-        console.log(newCard);
     }
 }
