@@ -31,13 +31,12 @@ export default class Todo {
 
       if (buttonClose.classList.contains('footer-button-add-card')
             || buttonClose.classList.contains('click-add-card-close')) {
-
         if (buttonClose.classList.contains('footer-button-add-card')) {
-          
           if (textareaField.value === '') return false; // эта строчка как необоходимость.
-          // Так как все последующие карточки после добавления первой вызывают событие клика повторно,
+          // Так как все последующие карточки, после добавления первой,
+          // вызывают событие клика повторно,
           // что с этим делать и как это исправить? загружает ивентлуп
-          
+
           this.cardDisplay(textareaField);
         }
 
@@ -51,6 +50,7 @@ export default class Todo {
         this.showTextarea.classList.add('footer-block-card');
         return false;
       }
+      return false;
     });
   }
 
@@ -74,16 +74,16 @@ export default class Todo {
     this.card.insertBefore(cardButton, this.card.firstElementChild);
     this.card.insertBefore(pContent, this.card.firstElementChild);
 
-    if(typeof contentArea === 'string') {
+    if (typeof contentArea === 'string') {
       pContent.innerText = contentArea;
       return this.card; // вернуть карточку для localStorage
-    } 
+    }
 
     pContent.innerText = contentArea.value;
     pContent.innerText.trim();
     const wholeBoard = contentArea.closest('.column-boards');
     const columnCards = wholeBoard.querySelector('.column-cards');
-    columnCards.insertAdjacentElement('beforeEnd', this.card)
+    return columnCards.insertAdjacentElement('beforeEnd', this.card);
   }
 
   showClosingIcon(event) {
@@ -102,5 +102,6 @@ export default class Todo {
     const iconClosure = this.card.querySelector('.card-closure');
 
     iconClosure.addEventListener('click', () => this.card.remove());
+    return false;
   }
 }

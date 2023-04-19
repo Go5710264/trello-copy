@@ -3,10 +3,10 @@ import Storage from '../components/Store';
 
 /* На доработку:
 Одновременно открыто одно поле textarea
-Увеличение размеров колонны при добавлении контента */ 
+Обзацы добавляются вместе с текстом
+Увеличение размеров колонны при добавлении контента */
 
 document.addEventListener('DOMContentLoaded', () => {
-
   const objStorage = new Storage();
   objStorage.loadingLocalStorage();
 
@@ -26,21 +26,19 @@ document.addEventListener('DOMContentLoaded', () => {
 window.addEventListener('beforeunload', () => { // как в devtools выполнить данное событие
   const objStorage = new Storage();
   const allCards = Array.from(document.querySelectorAll('.card'));
-  const cardsWithoutAds = allCards.filter((card) => !card.classList.contains('advertisement'))
+  const cardsWithoutAds = allCards.filter((card) => !card.classList.contains('advertisement'));
 
-  if(cardsWithoutAds.length === 0) {
+  if (cardsWithoutAds.length === 0) {
     localStorage.removeItem('taskCards');
     return false;
   }
 
-  cardsWithoutAds.forEach(card => {
-
+  cardsWithoutAds.forEach((card) => {
     if (card.classList.contains('advertisement')) return false;
     const header = card.closest('.column-boards').firstElementChild.firstElementChild.innerText;
     const content = card.firstElementChild.textContent;
-    objStorage.addData(content, header);
-
+    return objStorage.addData(content, header);
   });
 
-  objStorage.addLocalStorage();
+  return objStorage.addLocalStorage();
 });
