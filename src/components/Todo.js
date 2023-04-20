@@ -3,23 +3,49 @@ export default class Todo {
     this.showTextarea = null;
     this.textarea = null;
     this.card = null;
+    this.allTextareaOpeningButtons = document.querySelectorAll('.button-icon');
+    this.cardList = document.querySelectorAll('.column-cards')
+    this.columnCards = null;
+    this.iconClosure = null;
   }
 
   showInputField(element) {
+    this.allTextareaOpeningButtons.forEach((button) => {
+
+      if(button === element) return false;
+      
+      this.showTextarea = button.parentElement;
+      this.textarea = button.parentElement.parentElement.firstElementChild;
+
+      this.hideTextField('footer-block-card', 'hide_element', 'show_element')
+
+    })
+
     this.showTextarea = element.parentElement;
     this.textarea = element.parentElement.parentElement.firstElementChild;
 
-    this.showTextarea.classList.add('hide_element');
-    this.showTextarea.classList.remove('footer-block-card');
-
-    this.textarea.classList.add('show_element');
-    this.textarea.classList.remove('hide_element');
+    this.hideTextField('hide_element', 'footer-block-card', 'show_element')
 
     this.cardFormation();
   }
 
+  hideTextField(firstSelector, secondSelector, thirdSelector) {
+
+    this.showTextarea.classList.add(firstSelector); 
+    this.showTextarea.classList.remove(secondSelector);
+    
+    (secondSelector === 'hide_element') ?
+      (
+        this.textarea.classList.add(secondSelector), 
+        this.textarea.classList.remove(thirdSelector)
+      ) : (
+        this.textarea.classList.add(thirdSelector),
+        this.textarea.classList.remove(firstSelector)  
+      )
+  }
+
   cardFormation() {
-    const textareaField = this.textarea.querySelector('.task-input-field');
+    let textareaField = this.textarea.querySelector('.task-input-field');
 
     textareaField.addEventListener('keyup', () => {
       textareaField.style.height = '0px';
@@ -27,27 +53,33 @@ export default class Todo {
     });
 
     this.textarea.addEventListener('click', (event) => {
+      textareaField.style.height = '';
+
       const buttonClose = event.target;
+      textareaField.value = textareaField.value.trim();
 
       if (buttonClose.classList.contains('footer-button-add-card')
             || buttonClose.classList.contains('click-add-card-close')) {
         if (buttonClose.classList.contains('footer-button-add-card')) {
-          if (textareaField.value === '') return false; // эта строчка как необоходимость.
-          // Так как все последующие карточки, после добавления первой,
-          // вызывают событие клика повторно,
-          // что с этим делать и как это исправить? загружает ивентлуп
+          if (textareaField.value === '') {
+
+            return false; // эта строчка как необоходимость.
+            // Так как все последующие карточки, после добавления первой,
+            // вызывают событие клика повторно,
+            // что с этим делать и как это исправить? загружает ивентлуп
+          }
 
           this.cardDisplay(textareaField);
+
+          this.correctionColumnCoordinates();
         }
 
         this.textarea = buttonClose.closest('.show_element');
         textareaField.value = '';
-        this.textarea.classList.remove('show_element');
-        this.textarea.classList.add('hide_element');
-
         this.showTextarea = buttonClose.closest('footer').lastElementChild;
-        this.showTextarea.classList.remove('hide_element');
-        this.showTextarea.classList.add('footer-block-card');
+
+        this.hideTextField('footer-block-card','hide_element', 'show_element')
+
         return false;
       }
       return false;
@@ -79,11 +111,11 @@ export default class Todo {
       return this.card; // вернуть карточку для localStorage
     }
 
+    // pContent.innerText = contentArea.value.trim();
     pContent.innerText = contentArea.value;
-    pContent.innerText.trim();
     const wholeBoard = contentArea.closest('.column-boards');
-    const columnCards = wholeBoard.querySelector('.column-cards');
-    return columnCards.insertAdjacentElement('beforeEnd', this.card);
+    this.columnCards = wholeBoard.querySelector('.column-cards');
+    return this.columnCards.insertAdjacentElement('beforeEnd', this.card);
   }
 
   showClosingIcon(event) {
@@ -99,9 +131,31 @@ export default class Todo {
       this.card.querySelector('.card-closure').classList.remove('flex_element');
     });
 
-    const iconClosure = this.card.querySelector('.card-closure');
+    this.iconClosure = this.card.querySelector('.card-closure');
 
-    iconClosure.addEventListener('click', () => this.card.remove());
+    this.iconClosure.addEventListener('click', () => {
+      this.card.remove();
+
+      this.correctionColumnCoordinates();
+    });
+
     return false;
+  }
+
+  correctionColumnCoordinates() {
+
+    this.columnCards = this.card.closest('.column-cards');
+
+    const { bottom: bottomCard } = this.card.getBoundingClientRect();
+
+    let { bottom: bottomColumn, height: heightColumn } = this.columnCards.getBoundingClientRect();
+
+    if(bottomColumn < bottomCard) {
+      this.columnCards.style.height = heightColumn + (bottomCard - bottomColumn) + 'px';
+    }
+
+    if(bottomColumn > bottomCard) {
+      this.columnCards.style.height = heightColumn - (bottomColumn - bottomCard) + 'px';
+    }
   }
 }

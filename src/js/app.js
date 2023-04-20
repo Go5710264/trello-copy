@@ -2,9 +2,10 @@ import Todo from '../components/Todo';
 import Storage from '../components/Store';
 
 /* На доработку:
-Одновременно открыто одно поле textarea
-Обзацы добавляются вместе с текстом
-Увеличение размеров колонны при добавлении контента */
+Уменьшение размеров колонны при удалении контента
+
+При множестве нажитии на закрытие текстЭриа появляется ошибка в консоле
+ */
 
 document.addEventListener('DOMContentLoaded', () => {
   const objStorage = new Storage();
@@ -12,13 +13,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const todoList = new Todo();
   const buttonAddCards = document.querySelectorAll('.button-icon');
-  const cardList = document.querySelectorAll('.column-cards');
 
   buttonAddCards.forEach((button) => {
     button.addEventListener('click', () => todoList.showInputField(button));
   });
 
-  cardList.forEach((column) => {
+  todoList.cardList.forEach((column) => {
     column.addEventListener('mouseover', todoList.showClosingIcon);
   });
 });

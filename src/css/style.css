@@ -45,6 +45,7 @@ body, ul {
 
 .column-cards{
     height: 150px;
+    margin-bottom: 5px;
     /* нужно будет убрать в продакшене */
 }
 
