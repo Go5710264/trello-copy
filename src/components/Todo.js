@@ -4,48 +4,46 @@ export default class Todo {
     this.textarea = null;
     this.card = null;
     this.allTextareaOpeningButtons = document.querySelectorAll('.button-icon');
-    this.cardList = document.querySelectorAll('.column-cards')
+    this.cardList = document.querySelectorAll('.column-cards');
     this.columnCards = null;
     this.iconClosure = null;
   }
 
   showInputField(element) {
     this.allTextareaOpeningButtons.forEach((button) => {
+      if (button === element) return false;
 
-      if(button === element) return false;
-      
       this.showTextarea = button.parentElement;
       this.textarea = button.parentElement.parentElement.firstElementChild;
 
-      this.hideTextField('footer-block-card', 'hide_element', 'show_element')
-
-    })
+      return this.hideTextField('footer-block-card', 'hide_element', 'show_element');
+    });
 
     this.showTextarea = element.parentElement;
     this.textarea = element.parentElement.parentElement.firstElementChild;
 
-    this.hideTextField('hide_element', 'footer-block-card', 'show_element')
+    this.hideTextField('hide_element', 'footer-block-card', 'show_element');
 
     this.cardFormation();
   }
 
   hideTextField(firstSelector, secondSelector, thirdSelector) {
-
-    this.showTextarea.classList.add(firstSelector); 
+    this.showTextarea.classList.add(firstSelector);
     this.showTextarea.classList.remove(secondSelector);
-    
-    (secondSelector === 'hide_element') ?
-      (
-        this.textarea.classList.add(secondSelector), 
-        this.textarea.classList.remove(thirdSelector)
-      ) : (
-        this.textarea.classList.add(thirdSelector),
-        this.textarea.classList.remove(firstSelector)  
-      )
+
+    if (secondSelector === 'hide_element') {
+      this.textarea.classList.add(secondSelector);
+      this.textarea.classList.remove(thirdSelector);
+      return false;
+    }
+
+    this.textarea.classList.add(thirdSelector);
+    this.textarea.classList.remove(firstSelector);
+    return false;
   }
 
   cardFormation() {
-    let textareaField = this.textarea.querySelector('.task-input-field');
+    const textareaField = this.textarea.querySelector('.task-input-field');
 
     textareaField.addEventListener('keyup', () => {
       textareaField.style.height = '0px';
@@ -62,7 +60,6 @@ export default class Todo {
             || buttonClose.classList.contains('click-add-card-close')) {
         if (buttonClose.classList.contains('footer-button-add-card')) {
           if (textareaField.value === '') {
-
             return false; // эта строчка как необоходимость.
             // Так как все последующие карточки, после добавления первой,
             // вызывают событие клика повторно,
@@ -78,7 +75,7 @@ export default class Todo {
         textareaField.value = '';
         this.showTextarea = buttonClose.closest('footer').lastElementChild;
 
-        this.hideTextField('footer-block-card','hide_element', 'show_element')
+        this.hideTextField('footer-block-card', 'hide_element', 'show_element');
 
         return false;
       }
@@ -143,19 +140,18 @@ export default class Todo {
   }
 
   correctionColumnCoordinates() {
-
     this.columnCards = this.card.closest('.column-cards');
 
     const { bottom: bottomCard } = this.card.getBoundingClientRect();
 
-    let { bottom: bottomColumn, height: heightColumn } = this.columnCards.getBoundingClientRect();
+    const { bottom: bottomColumn, height: heightColumn } = this.columnCards.getBoundingClientRect();
 
-    if(bottomColumn < bottomCard) {
-      this.columnCards.style.height = heightColumn + (bottomCard - bottomColumn) + 'px';
+    if (bottomColumn < bottomCard) {
+      this.columnCards.style.height = `${heightColumn + (bottomCard - bottomColumn)}px`;
     }
 
-    if(bottomColumn > bottomCard) {
-      this.columnCards.style.height = heightColumn - (bottomColumn - bottomCard) + 'px';
+    if (bottomColumn > bottomCard) {
+      this.columnCards.style.height = `${heightColumn - (bottomColumn - bottomCard)}px`;
     }
   }
 }
