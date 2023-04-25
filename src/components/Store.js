@@ -59,5 +59,9 @@ export default class Store {
     this.newCard = this.newBoard.cardDisplay(message);
     const elem = document.querySelector(selector);
     elem.insertAdjacentElement('beforeEnd', this.newCard);
+
+    if (message === 'Welcome to Trello!') return false;
+
+    return this.newBoard.correctionColumnCoordinates();
   }
 }

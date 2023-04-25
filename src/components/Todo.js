@@ -10,23 +10,21 @@ export default class Todo {
 
     //
 
-    this.arrayTextareaDisplayIcon = Array.from(document.querySelectorAll('.footer-block-card'))
+    this.arrayTextareaDisplayIcon = Array.from(document.querySelectorAll('.footer-block-card'));
     // this.textarea
   }
 
   showInputField() {
     const textareaDisplayIcon = event.target.closest('.footer-block-card');
-    console.log(textareaDisplayIcon)
+    console.log(textareaDisplayIcon);
 
     this.arrayTextareaDisplayIcon.forEach((icon) => {
-
       if (icon === textareaDisplayIcon) return false;
 
       this.showTextarea = icon;
       this.textarea = icon.previousElementSibling;
 
       return this.hideTextField('footer-block-card', 'hide_element', 'show_element');
-
     });
 
     this.showTextarea = textareaDisplayIcon;
@@ -66,24 +64,20 @@ export default class Todo {
       textareaField.style.height = '';
       textareaField.value = textareaField.value.trim();
 
-      if(buttonClose.classList.contains('footer-button-add-card') && textareaField.value === '') return false;
+      if (buttonClose.classList.contains('footer-button-add-card') && textareaField.value === '') return false;
 
       if (buttonClose.classList.contains('footer-button-add-card')) {
-        
         this.cardDisplay(textareaField);
         this.correctionColumnCoordinates();
-
       }
 
       if (buttonClose.classList.contains('footer-button-add-card') || buttonClose.classList.contains('click-add-card-close')) {
-
         textareaField.value = '';
 
         this.textarea = buttonClose.closest('.show_element');
         this.showTextarea = buttonClose.closest('footer').lastElementChild;
 
         return this.hideTextField('footer-block-card', 'hide_element', 'show_element');
-
       }
 
       return false;
@@ -115,7 +109,6 @@ export default class Todo {
       return this.card; // вернуть карточку для localStorage
     }
 
-    // pContent.innerText = contentArea.value.trim();
     pContent.innerText = contentArea.value;
     const wholeBoard = contentArea.closest('.column-boards');
     this.columnCards = wholeBoard.querySelector('.column-cards');
@@ -123,9 +116,16 @@ export default class Todo {
   }
 
   showClosingIcon(arg) {
-    if(!event.target.closest('.card')) return false;
+    if (!event.target.closest('.card')) return false;
+    console.log('hi');
 
     this.card = event.target.closest('.card');
+
+    if (arg === 'out') {
+      this.card.querySelector('.card-closure').classList.add('hide_element');
+      this.card.querySelector('.card-closure').classList.remove('flex_element');
+      return false;
+    }
 
     this.card.querySelector('.card-closure').classList.remove('hide_element');
     this.card.querySelector('.card-closure').classList.add('flex_element');
@@ -133,18 +133,21 @@ export default class Todo {
     this.iconClosure = this.card.querySelector('.card-closure');
 
     this.iconClosure.addEventListener('click', () => {
+      if (this.card === null) return false;
       this.correctionColumnCoordinates();
       this.card.remove();
+      this.card = null;
+      this.iconClosure = null;
+      return false;
+      // после удаления элемента данное событие продолджает вызывать 3 раза - почему?
     });
-
-
   }
 
   correctionColumnCoordinates() {
     this.columnCards = this.card.closest('.column-cards');
-    console.log( this.card.getBoundingClientRect())
+    console.log(this.card.getBoundingClientRect());
 
-    const { bottom: bottomCard, height: heightCard } = this.card.getBoundingClientRect();
+    const { bottom: bottomCard } = this.card.getBoundingClientRect();
 
     const { bottom: bottomColumn, height: heightColumn } = this.columnCards.getBoundingClientRect();
 
@@ -153,7 +156,7 @@ export default class Todo {
     }
 
     if (bottomColumn > bottomCard) {
-      this.columnCards.style.height = `${heightColumn - heightCard}px`;
+      this.columnCards.style.height = `${heightColumn - (bottomColumn - bottomCard)}px`;
     }
   }
 }

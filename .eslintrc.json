@@ -17,5 +17,10 @@
           "devDependencies": true
         }
       ]
+      // "no-restricted-globals": [
+      //   "error",
+      //   "event",
+      //   "fdescribe"
+      // ]
     }
   }

@@ -2,8 +2,6 @@ import Todo from '../components/Todo';
 import Storage from '../components/Store';
 
 /* На доработку:
-Уменьшение размеров колонны при удалении контента
-Отправка размеров колонн в локал стораже
 При множестве нажитии на закрытие текстЭриа появляется ошибка в консоле
  */
 
@@ -12,22 +10,18 @@ document.addEventListener('DOMContentLoaded', () => {
   objStorage.loadingLocalStorage();
 
   const todoList = new Todo();
-  // const buttonAddCards = document.querySelectorAll('.button-icon');
   const main = document.querySelector('main');
-  // const footer = Array.from(document.querySelectorAll('footer'));
-
 
   main.addEventListener('click', (event) => {
-    console.log(event)
+    console.log(event);
     if (event.target.closest('.footer-block-card')) todoList.showInputField();
     return false;
-  })
+  });
 
   todoList.cardList.forEach((column) => {
     column.addEventListener('mouseover', () => todoList.showClosingIcon('over'));
-    // column.addEventListener('mouseout', todoList.showClosingIcon);
+    column.addEventListener('mouseout', () => todoList.showClosingIcon('out'));
   });
-
 });
 
 window.addEventListener('beforeunload', () => { // как в devtools выполнить данное событие
