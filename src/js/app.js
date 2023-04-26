@@ -13,14 +13,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const main = document.querySelector('main');
 
   main.addEventListener('click', (event) => {
-    console.log(event);
     if (event.target.closest('.footer-block-card')) todoList.showInputField();
     return false;
   });
 
   todoList.cardList.forEach((column) => {
-    column.addEventListener('mouseover', () => todoList.showClosingIcon('over'));
-    column.addEventListener('mouseout', () => todoList.showClosingIcon('out'));
+    column.addEventListener('mouseover', (event) => todoList.showClosingIcon('over', event));
+    column.addEventListener('mouseout', (event) => todoList.showClosingIcon('out', event));
   });
 });
 

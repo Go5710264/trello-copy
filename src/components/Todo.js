@@ -7,16 +7,11 @@ export default class Todo {
     this.cardList = document.querySelectorAll('.column-cards');
     this.columnCards = null;
     this.iconClosure = null;
-
-    //
-
     this.arrayTextareaDisplayIcon = Array.from(document.querySelectorAll('.footer-block-card'));
-    // this.textarea
   }
 
-  showInputField() {
+  showInputField(event) {
     const textareaDisplayIcon = event.target.closest('.footer-block-card');
-    console.log(textareaDisplayIcon);
 
     this.arrayTextareaDisplayIcon.forEach((icon) => {
       if (icon === textareaDisplayIcon) return false;
@@ -115,9 +110,8 @@ export default class Todo {
     return this.columnCards.insertAdjacentElement('beforeEnd', this.card);
   }
 
-  showClosingIcon(arg) {
+  showClosingIcon(arg, event) {
     if (!event.target.closest('.card')) return false;
-    console.log('hi');
 
     this.card = event.target.closest('.card');
 
@@ -141,14 +135,14 @@ export default class Todo {
       return false;
       // после удаления элемента данное событие продолджает вызывать 3 раза - почему?
     });
+
+    return false;
   }
 
   correctionColumnCoordinates() {
     this.columnCards = this.card.closest('.column-cards');
-    console.log(this.card.getBoundingClientRect());
 
     const { bottom: bottomCard } = this.card.getBoundingClientRect();
-
     const { bottom: bottomColumn, height: heightColumn } = this.columnCards.getBoundingClientRect();
 
     if (bottomColumn < bottomCard) {
