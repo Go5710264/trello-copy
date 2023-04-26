@@ -24,16 +24,12 @@ document.addEventListener('DOMContentLoaded', () => {
     column.addEventListener('mouseout', (event) => todoList.showClosingIcon('out', event));
   });
 
-
-
   main.addEventListener('mousedown', (e) => {
-    e.preventDefault();
-    if(e.target.closest('.card')) transferElement.onMouseDown(e)
-  })
+    if (e.target.closest('.card')) transferElement.onMouseDown(e);
+  });
 
   main.addEventListener('mousemove', transferElement.onMouseMove);
   main.addEventListener('mouseup', transferElement.onMouseUp);
-
 });
 
 window.addEventListener('beforeunload', () => { // как в devtools выполнить данное событие
