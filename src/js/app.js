@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const main = document.querySelector('main');
 
   main.addEventListener('click', (event) => {
-    if (event.target.closest('.footer-block-card')) todoList.showInputField();
+    if (event.target.closest('.footer-block-card')) todoList.showInputField(event);
     return false;
   });
 
