@@ -6,11 +6,11 @@ body, ul {
 .wrapper-columns-boards{
     width: 990px;
     padding: 10px;
+    margin: 50px auto;
 
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-
 }
 
 .column-boards{
@@ -43,11 +43,6 @@ body, ul {
     text-transform: uppercase;
 }
 
-.column-cards{
-    height: 150px;
-    margin-bottom: 5px;
-    /* нужно будет убрать в продакшене */
-}
 
 .card {
     display: flex;
@@ -57,15 +52,14 @@ body, ul {
     margin-bottom: 5px;
     background-color: #ffffff;
     border-radius: 3px;
+    cursor: default;
 }
 
-.card.dragged{
-    /* border-radius: 10px;  */
+.dragged{
     position: absolute; 
     z-index: 999; 
     pointer-events: none; 
     width: 300px;
-    /* background: #fff;  */
 }
 
 .card-message{
@@ -114,6 +108,10 @@ body, ul {
 
 .flex_element{
     display: flex;
+}
+
+footer{
+    margin-top: 6px;
 }
 
 .footer-block-card{

@@ -3,7 +3,7 @@ export default class Todo {
     this.showTextarea = null;
     this.textarea = null;
     this.card = null;
-    this.allTextareaOpeningButtons = document.querySelectorAll('.button-icon');
+    this.lastElement = null;
     this.cardList = document.querySelectorAll('.column-cards');
     this.columnCards = null;
     this.iconClosure = null;
@@ -128,8 +128,12 @@ export default class Todo {
 
     this.iconClosure.addEventListener('click', () => {
       if (this.card === null) return false;
-      this.correctionColumnCoordinates();
+
+      this.columnCards = this.card.closest('.column-cards');
       this.card.remove();
+      this.lastElement = this.columnCards.lastElementChild;
+      this.correctionColumnCoordinates();
+      this.lastElement = null;
       this.card = null;
       this.iconClosure = null;
       return false;
@@ -140,9 +144,12 @@ export default class Todo {
   }
 
   correctionColumnCoordinates() {
-    this.columnCards = this.card.closest('.column-cards');
+    if (!this.lastElement) {
+      this.columnCards = this.card.closest('.column-cards');
+      this.lastElement = this.columnCards.lastElementChild;
+    }
 
-    const { bottom: bottomCard } = this.card.getBoundingClientRect();
+    const { bottom: bottomCard } = this.lastElement.getBoundingClientRect();
     const { bottom: bottomColumn, height: heightColumn } = this.columnCards.getBoundingClientRect();
 
     if (bottomColumn < bottomCard) {
@@ -152,5 +159,7 @@ export default class Todo {
     if (bottomColumn > bottomCard) {
       this.columnCards.style.height = `${heightColumn - (bottomColumn - bottomCard)}px`;
     }
+
+    this.lastElement = null;
   }
 }

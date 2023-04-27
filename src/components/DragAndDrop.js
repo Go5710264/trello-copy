@@ -1,112 +1,100 @@
+import Todo from './Todo';
+
 export default class DragAndDrop {
-    constructor() {
-        this.card; // перемещаемый элемент
-        this.copyElement;
-        this.placeCard;
-        this.placeInsertion = null;
-        this.column;
-        this.shiftX;
-        this.shiftY;
-        this.mouseDownCard; // элемент на который перемещают
-        this.main = document.querySelector('main');
-    }
+  constructor() {
+    this.card = null;
+    this.copyElement = null;
+    this.shiftX = null;
+    this.shiftY = null;
+    this.clientY = null;
+    this.todo = new Todo();
+  }
 
-    onMouseDown(event) {
-        event.preventDefault();
+  onMouseDown(event) {
+    event.preventDefault();
 
-        this.card = event.target.closest('.card');
-        this.card.classList.add('dragged');
+    this.card = event.target.closest('.card');
+    this.card.classList.add('dragged');
 
-        // фиксация координат клика
-        this.shiftX = event.offsetX;
-        this.shiftY = event.offsetY;
+    this.shiftX = event.offsetX;
+    this.shiftY = event.offsetY;
 
-        this.copyElement = this.card; // создание копии элемента
-
-        // this.placeCard.style = `
-        this.copyElement.style = `
+    this.card.style = `
             left: ${event.pageX - this.shiftX}px;
             top: ${event.pageY - this.shiftY}px;
-        `
-        this.insertingElement(event);
+        `;
+    this.insertingElement(event);
+  }
+
+  insertingElement(event) {
+    const target = event.closest('.card');
+
+    if (target) {
+      const { y, height } = target.getBoundingClientRect();
+
+      const appendPosition = y + height / 2 > this.clientY
+        ? 'beforebegin'
+        : 'afterend';
+
+      if (!this.copyElement) {
+        this.copyElement = this.proection();
+        this.todo.card = this.copyElement;
+      } else {
+        target.insertAdjacentElement(appendPosition, this.copyElement);
+        this.todo.correctionColumnCoordinates();
+      }
     }
+  }
 
-    insertingElement(event) {
+  onMouseUp = () => {
+    if (this.card) {
+      this.copyElement.replaceWith(this.card);
+      this.card.style = '';
+      this.card.classList.remove('dragged');
 
-        // необоходимо провести оптимизацию кода
+      this.card = null;
+      this.copyElement = null;
 
-        if(event.closest('.card')){
-            const{ y, height } = event.getBoundingClientRect();
-            const appendPosition = y + height / 2 > event.clientY 
-            ? 'beforebegin' 
-            : 'afterend';
+      this.todo.cardList.forEach((board) => {
+        this.todo.columnCards = board;
+        this.todo.lastElement = this.todo.columnCards.lastElementChild;
+        this.todo.correctionColumnCoordinates();
+      });
 
-            // this.copyCard.remove();
-
-            event.insertAdjacentElement(appendPosition, this.copyElement)
-        }
-
-        // const target = event.target;
-        // const element = this.card;
-        // const placeInsertion = this.placeInsertion;
-
-        if(target.classList.contains('dragged')){
-            // const{ y, height } = this.card.getBoundingClientRect();
-            // if(target.closest('card')) return target = target.closest('card');
-            // console.log(target)
-            const{ y, height } = target.getBoundingClientRect();
-
-
-            const appendPosition = y + height / 2 > event.clientY 
-                ? 'beforebegin' 
-                : 'afterend';
-
-            if(!this.placeInsertion) {
-                this.placeInsertion = this.proection();
-                // console.log(this.placeInsertion)
-            } else {
-                target.insertAdjacentElement(appendPosition, this.copyElement)
-            }
-        }
+      this.todo.columnCards = null;
+      this.todo.card = null;
     }
+  };
 
-    onMouseUp = () => {
+  onMouseMove = (event) => {
+    if (this.card) {
+      this.clientY = event.clientY;
+      const { pageX, pageY } = event;
+      const element = this.card;
 
-        // полный рефакторинг
-        if(this.card){
-            // console.log(this.card , this.placeInsertion)
-
-            this.card.replaceWith(this.placeInsertion);
-        }
-    }
-    
-    onMouseMove = (event) => {
-        // console.log(typeof event.target ) // данный event.target указывает на элемент вместо которого будут подставлять 
-        if(this.copyElement){
-            const { pageX, pageY } = event;
-            const element = this.copyElement;
-            const { width, height } = element.getBoundingClientRect();
-
-            element.style = `
+      element.style = `
                 position: absolute;
                 left: ${pageX - this.shiftX}px;
                 top: ${pageY - this.shiftY}px;
                 pointer-events: none;
-            `
-            this.insertingElement(event.target);
-        }
-    }
+            `;
 
-    proection(){
-        return (() => {
-            const elem = document.createElement('div');
-            const { width, height } = this.card.getBoundingClientRect();
-            elem.style.cssText = `
+      this.insertingElement(event.target);
+    }
+  };
+
+  proection() {
+    return (() => {
+      const elem = document.createElement('div');
+      elem.classList.add('copyElement');
+      const { width, height } = this.card.getBoundingClientRect();
+      elem.style.cssText = `
                 width: ${width}px;
                 height: ${height}px;
                 margin-bottom: 5px; 
+                opacity: 0;
             `;
-            return elem
-        })();
-    }
+      return elem;
+    })();
+  }
 }

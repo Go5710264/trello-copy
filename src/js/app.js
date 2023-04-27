@@ -2,10 +2,6 @@ import Todo from '../components/Todo';
 import Storage from '../components/Store';
 import DragAndDrop from '../components/DragAndDrop';
 
-/* На доработку:
-При множестве нажитии на закрытие текстЭриа появляется ошибка в консоле
- */
-
 document.addEventListener('DOMContentLoaded', () => {
   const objStorage = new Storage();
   objStorage.loadingLocalStorage();
@@ -25,11 +21,12 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   main.addEventListener('mousedown', (e) => {
-    if (e.target.closest('.card')) transferElement.onMouseDown(e);
+    if (e.target.closest('.card') && !e.target.closest('.card-closure')) transferElement.onMouseDown(e);
   });
 
   main.addEventListener('mousemove', transferElement.onMouseMove);
   main.addEventListener('mouseup', transferElement.onMouseUp);
+  main.addEventListener('mouseover', transferElement.onMouseOver);
 });
 
 window.addEventListener('beforeunload', () => { // как в devtools выполнить данное событие
