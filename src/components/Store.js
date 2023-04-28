@@ -60,7 +60,10 @@ export default class Store {
     const elem = document.querySelector(selector);
     elem.insertAdjacentElement('beforeEnd', this.newCard);
 
-    if (message === 'Welcome to Trello!') return false;
+    if (message === 'Welcome to Trello!') {
+      elem.style = 'height: 150px;';
+      return false;
+    }
 
     return this.newBoard.correctionColumnCoordinates();
   }

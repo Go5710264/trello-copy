@@ -27,10 +27,11 @@ export default class DragAndDrop {
   }
 
   insertingElement() {
-    // const target = event.closest('.card');
+    if (!this.deepElement) return false;
 
-    // if (target) {
-    if (this.deepElement.closest('.card')) {
+    this.deepElement = this.deepElement.closest('.card');
+
+    if (this.deepElement) {
       const { y, height } = this.deepElement.getBoundingClientRect();
 
       const appendPosition = y + height / 2 > this.clientY
@@ -40,31 +41,17 @@ export default class DragAndDrop {
       if (!this.copyElement) {
         this.copyElement = this.proection();
         this.todo.card = this.copyElement;
-      } else {
-        this.deepElement.insertAdjacentElement(appendPosition, this.copyElement);
-        this.todo.correctionColumnCoordinates();
       }
+      this.deepElement.insertAdjacentElement(appendPosition, this.copyElement);
+      this.todo.correctionColumnCoordinates();
     }
-
-    //   const { y, height } = target.getBoundingClientRect();
-
-    //   const appendPosition = y + height / 2 > this.clientY
-    //     ? 'beforebegin'
-    //     : 'afterend';
-
-    //   if (!this.copyElement) {
-    //     this.copyElement = this.proection();
-    //     this.todo.card = this.copyElement;
-    //   } else {
-    //     target.insertAdjacentElement(appendPosition, this.copyElement);
-    //     this.todo.correctionColumnCoordinates();
-    //   }
-    // }
+    return false;
   }
 
   onMouseUp = () => {
     if (this.card) {
       this.copyElement.replaceWith(this.card);
+
       this.card.style = '';
       this.card.classList.remove('dragged');
 
@@ -79,6 +66,7 @@ export default class DragAndDrop {
 
       this.todo.columnCards = null;
       this.todo.card = null;
+      this.deepElement = null;
     }
   };
 
@@ -86,26 +74,14 @@ export default class DragAndDrop {
     if (this.card) {
       this.clientY = event.clientY;
       const { pageX, pageY } = event;
-      const element = this.card;
 
-      // element.style = `
-      //           position: absolute;
-      //           left: ${pageX - this.shiftX}px;
-      //           top: ${pageY - this.shiftY}px;
-      //           pointer-events: none;
-      // `;
-
-      element.style = `
+      this.card.style = `
         position: absolute;
         left: ${pageX - this.shiftX}px;
         top: ${pageY - this.shiftY}px;
       `;
 
-      // console.log(document.elementFromPoint(event.clientX, event.clientY))
       this.deepElement = document.elementFromPoint(event.clientX, event.clientY);
-      // console.log(this.card)
-      // this.card.style = 'cursor: grabbing;';
-      // курсор не меняется при наведении на карточки и на кнопку add another card
 
       this.insertingElement(event.target);
     }

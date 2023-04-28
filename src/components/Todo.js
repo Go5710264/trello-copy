@@ -90,11 +90,13 @@ export default class Todo {
     cardButton.classList.add('card-closure');
     cardButton.classList.add('hide_element');
 
-    const imgClose = document.createElement('img');
-    imgClose.setAttribute('src', 'images/close.svg');
-    imgClose.setAttribute('alt', 'Close');
-    imgClose.classList.add('icon');
-    cardButton.insertBefore(imgClose, cardButton.firstElementChild);
+    if (contentArea !== 'Welcome to Trello!') {
+      const imgClose = document.createElement('img');
+      imgClose.setAttribute('src', 'images/close.svg');
+      imgClose.setAttribute('alt', 'Close');
+      imgClose.classList.add('icon');
+      cardButton.insertBefore(imgClose, cardButton.firstElementChild);
+    }
 
     this.card.insertBefore(cardButton, this.card.firstElementChild);
     this.card.insertBefore(pContent, this.card.firstElementChild);
