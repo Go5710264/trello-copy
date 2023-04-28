@@ -55,11 +55,12 @@ body, ul {
     cursor: default;
 }
 
-.dragged{
+.card.dragged{
     position: absolute; 
     z-index: 999; 
     pointer-events: none; 
     width: 300px;
+    /* cursor: grabbing; */
 }
 
 .card-message{

@@ -101,7 +101,7 @@ export default class Todo {
 
     if (typeof contentArea === 'string') {
       pContent.innerText = contentArea;
-      return this.card; // вернуть карточку для localStorage
+      return this.card;
     }
 
     pContent.innerText = contentArea.value;
