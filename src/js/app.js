@@ -29,10 +29,10 @@ document.addEventListener('DOMContentLoaded', () => {
   main.addEventListener('mouseover', transferElement.onMouseOver);
 });
 
-window.addEventListener('beforeunload', () => { // как в devtools выполнить данное событие
+window.addEventListener('beforeunload', () => {
   const objStorage = new Storage();
-  const allCards = Array.from(document.querySelectorAll('.card'));
-  const cardsWithoutAds = allCards.filter((card) => !card.classList.contains('advertisement'));
+  const allCards = document.querySelectorAll('.card');
+  const cardsWithoutAds = Array.from(allCards).filter((card) => !card.classList.contains('advertisement'));
 
   if (cardsWithoutAds.length === 0) {
     localStorage.removeItem('taskCards');

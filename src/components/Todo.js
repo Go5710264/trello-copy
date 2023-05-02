@@ -1,3 +1,5 @@
+import createCard, { cardDisplay } from './cardManipulation';
+
 export default class Todo {
   constructor() {
     this.showTextarea = null;
@@ -5,6 +7,10 @@ export default class Todo {
     this.card = null;
     this.lastElement = null;
     this.cardList = document.querySelectorAll('.column-cards');
+
+    this.createCard = createCard.bind(this);
+    this.cardDisplay = cardDisplay.bind(this);
+
     this.columnCards = null;
     this.iconClosure = null;
     this.arrayTextareaDisplayIcon = Array.from(document.querySelectorAll('.footer-block-card'));
@@ -62,7 +68,7 @@ export default class Todo {
       if (buttonClose.classList.contains('footer-button-add-card') && textareaField.value === '') return false;
 
       if (buttonClose.classList.contains('footer-button-add-card')) {
-        this.cardDisplay(textareaField);
+        this.card = this.cardDisplay(textareaField);
         this.correctionColumnCoordinates();
       }
 
@@ -77,39 +83,6 @@ export default class Todo {
 
       return false;
     });
-  }
-
-  cardDisplay(contentArea) {
-    this.card = document.createElement('div');
-    this.card.classList.add('card');
-
-    const pContent = document.createElement('p');
-    pContent.classList.add('card-message');
-
-    const cardButton = document.createElement('button');
-    cardButton.classList.add('card-closure');
-    cardButton.classList.add('hide_element');
-
-    if (contentArea !== 'Welcome to Trello!') {
-      const imgClose = document.createElement('img');
-      imgClose.setAttribute('src', 'images/close.svg');
-      imgClose.setAttribute('alt', 'Close');
-      imgClose.classList.add('icon');
-      cardButton.insertBefore(imgClose, cardButton.firstElementChild);
-    }
-
-    this.card.insertBefore(cardButton, this.card.firstElementChild);
-    this.card.insertBefore(pContent, this.card.firstElementChild);
-
-    if (typeof contentArea === 'string') {
-      pContent.innerText = contentArea;
-      return this.card;
-    }
-
-    pContent.innerText = contentArea.value;
-    const wholeBoard = contentArea.closest('.column-boards');
-    this.columnCards = wholeBoard.querySelector('.column-cards');
-    return this.columnCards.insertAdjacentElement('beforeEnd', this.card);
   }
 
   showClosingIcon(arg, event) {
@@ -133,13 +106,19 @@ export default class Todo {
 
       this.columnCards = this.card.closest('.column-cards');
       this.card.remove();
-      this.lastElement = this.columnCards.lastElementChild;
-      this.correctionColumnCoordinates();
+
+      const nameColumns = this.columnCards.className.split(' ');
+      if (this.columnCards.children.length === 0) {
+        this.createCard('Welcome to Trello!', `.${nameColumns[1]}`);
+      } else {
+        this.lastElement = this.columnCards.lastElementChild;
+        this.correctionColumnCoordinates();
+      }
+
       this.lastElement = null;
       this.card = null;
       this.iconClosure = null;
       return false;
-      // после удаления элемента данное событие продолджает вызывать 3 раза - почему?
     });
 
     return false;

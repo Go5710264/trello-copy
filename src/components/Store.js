@@ -1,4 +1,5 @@
 import Todo from './Todo';
+import createCard from './cardManipulation';
 
 export default class Store {
   constructor() {
@@ -9,6 +10,7 @@ export default class Store {
     };
     this.newCard = null;
     this.newBoard = new Todo();
+    this.createCard = createCard.bind(this);
   }
 
   addData(card, chapter) {
@@ -39,8 +41,6 @@ export default class Store {
         this.newCard = this.createCard('Welcome to Trello!', selector);
       });
 
-      document.querySelectorAll('.card').forEach((element) => element.classList.add('advertisement'));
-
       return false;
     }
 
@@ -49,22 +49,10 @@ export default class Store {
         if (column === 'todo') return this.createCard(message, '.todo');
         if (column === 'inProgress') return this.createCard(message, '.in-progress');
         if (column === 'done') return this.createCard(message, '.done');
+
         return false;
       });
     });
     return false;
-  }
-
-  createCard(message, selector) {
-    this.newCard = this.newBoard.cardDisplay(message);
-    const elem = document.querySelector(selector);
-    elem.insertAdjacentElement('beforeEnd', this.newCard);
-
-    if (message === 'Welcome to Trello!') {
-      elem.style = 'height: 150px;';
-      return false;
-    }
-
-    return this.newBoard.correctionColumnCoordinates();
   }
 }

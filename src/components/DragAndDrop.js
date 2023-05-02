@@ -1,4 +1,5 @@
 import Todo from './Todo';
+import createCard from './cardManipulation';
 
 export default class DragAndDrop {
   constructor() {
@@ -8,6 +9,8 @@ export default class DragAndDrop {
     this.shiftY = null;
     this.clientY = null;
     this.todo = new Todo();
+    this.createCard = createCard.bind(this);
+    this.columnCards = null;
   }
 
   onMouseDown(event) {
@@ -15,6 +18,10 @@ export default class DragAndDrop {
 
     this.card = event.target.closest('.card');
     this.card.classList.add('dragged');
+
+    this.columnCards = this.card.closest('.column-cards');
+    const nameColumns = this.columnCards.className.split(' ');
+    if (this.columnCards.children.length === 1) this.createCard('Welcome to Trello!', `.${nameColumns[1]}`);
 
     this.shiftX = event.offsetX;
     this.shiftY = event.offsetY;
